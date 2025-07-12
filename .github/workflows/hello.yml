@@ -6,5 +6,9 @@ jobs:
   hello:
     runs-on: ubuntu-latest
     steps:
-      - name: Just print hello world
+      - name: Say hello
         run: echo "Hello World!"
+      - name: Now it is
+        run: date
+      - name: Directory content
+        run: ls -la
