@@ -9,3 +9,7 @@ app.use(express.static('dist'))
 app.listen(PORT, () => {
   // Server is running on PORT
 })
+
+app.get('/version', (req, res) => {
+  res.send('1.1')
+})
