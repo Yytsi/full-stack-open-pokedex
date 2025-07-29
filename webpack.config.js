@@ -44,7 +44,8 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     proxy: {
-      '/version': 'http://localhost:5001'
+      '/version': 'http://localhost:5001',
+      '/health': 'http://localhost:5001'
     },
     port: 3000
   },
