@@ -5,11 +5,13 @@ const app = express()
 const PORT = process.env.PORT || 5001 // 5000 can be occupied on Mac
 
 app.get('/health', (req, res) => {
+  // eslint-disable-next-line no-constant-condition
+  if (true) throw('error...')
   res.send('ok')
 })
 
 app.get('/version', (req, res) => {
-  res.send('1.2.1')
+  res.send('1.2.2')
 })
 
 app.use(express.static('dist'))
