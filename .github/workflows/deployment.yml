@@ -8,9 +8,11 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger deployment
+        if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
