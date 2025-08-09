@@ -27,3 +27,13 @@ jobs:
       
       - name: test
         run: npm run test
+  tag_release:
+    needs: simple_deployment_pipeline
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.73.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: "patch"
