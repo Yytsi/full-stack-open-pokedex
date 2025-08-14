@@ -58,17 +58,17 @@ jobs:
           embed-title: "Successful Deployment"
           embed-description: "It worked!"
           embed-color: "5763719"
-          embed-footer-text: "Commit ${{ github.actor }}"
+          embed-footer-text: "Commit by ${{ github.actor }}"
       
       - name: Discord notification for failure
         if: ${{ failure() }}
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "❌ Build failed!"
+          content: "Build failed!"
           username: "Pokedeploy"
           embed-title: "Deployment Failed"
           embed-description: "It failed! Check the logs."
           embed-color: "15548997"
-          embed-footer-text: "Commit ${{ github.actor }}"
+          embed-footer-text: "Commit by ${{ github.actor }}"
           embed-url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
