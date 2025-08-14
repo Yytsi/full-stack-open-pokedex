@@ -50,16 +50,14 @@ jobs:
     steps:
       - name: Discord notification for success
         if: ${{ !cancelled() && !failure() && github.event_name == 'push' }}
-        run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d '{"content": "🎉 New version deployed!"}' \
-            ${{ secrets.DISCORD_WEBHOOK }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "🎉 New version deployed!"
       
       - name: Discord notification for failure
         if: ${{ failure() }}
-        run: |
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d '{"content": "❌ Build failed! Here is the commit which broke things: ${{ github.sha }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
-            ${{ secrets.DISCORD_WEBHOOK }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "❌ Build failed! Here is the commit which broke things: ${{ github.sha }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
