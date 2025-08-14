@@ -50,14 +50,16 @@ jobs:
     steps:
       - name: Discord notification for success
         if: ${{ !cancelled() && !failure() && github.event_name == 'push' }}
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          text: "New version deployed!"
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"content": "🎉 New version deployed!"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
       
       - name: Discord notification for failure
         if: ${{ failure() }}
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          text: "Build failed! Here is the commit which broke things: ${{ github.sha }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"content": "❌ Build failed! Here is the commit which broke things: ${{ github.sha }} - ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
