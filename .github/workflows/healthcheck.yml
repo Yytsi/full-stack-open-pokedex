@@ -1,0 +1,29 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health_check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: ${{ secrets.DEPLOYED_APP_URL }}/health
+          follow-redirect: true
+          max-attempts: 3
+          retry-delay: 45s
+      
+      - name: Discord notification for failure
+        if: ${{ failure() }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: "Health check failed!"
+          username: "PokeHealth"
+          embed-title: "Health Check Failed"
+          embed-description: "Health check failed -- check the logs?"
+          embed-color: "15548997"
